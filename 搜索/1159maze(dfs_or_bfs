@@ -1,0 +1,127 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+
+using namespace std;
+
+#define rep(i,s,t) for(int i=s;i<=t;i++)
+#define mst(a) memset(a,0,sizeof(a))
+typedef pair<int,int> pint;
+
+const int N=25;
+const int DoorN=5; 
+char maze[25][25];
+int door[10];
+pint doorposi[10];   //没用,可以删去 
+int key[10];
+int collectKey[10];
+int exCollectKey[10];
+int m,n;
+int visited[25][25];
+int flag;
+//pint start,end;
+
+void dfs(pint posi){  //dfs遍历连通图搜集钥匙 
+		int y=posi.first,x=posi.second;
+		visited[y][x]=1;
+		if(maze[y][x]=='G'||flag==1){
+			flag=1;
+			return ;
+		} 
+		int dx[]={-1,0,0,1};
+		int dy[]={0,-1,1,0};
+		rep(i,0,3){
+			int nx=x+dx[i],ny=y+dy[i];
+			char nowch=maze[ny][nx];
+			if(nx>=0&&nx<n&&ny>=0&&ny<m&&nowch!='X'&&visited[ny][nx]==0){
+				if(nowch>='A'&&nowch<='E'){
+					//need to open the door later
+					;
+				}
+				else{
+					if(nowch>='a'&&nowch<='e'){
+						maze[ny][nx]='.';    //钥匙收集完后从图上消除 
+						collectKey[nowch-'a']++;
+					} 
+					dfs(make_pair(ny,nx)); 
+				}
+			}
+		}
+	}
+
+
+int main(){
+	
+	freopen("1159.txt","r",stdin);
+	
+	while(cin>>m>>n&&m!=0&&n!=0){
+		mst(door);
+		mst(key);
+		mst(collectKey);
+		mst(exCollectKey);
+		mst(maze);
+		flag=0;
+//		int doornum=0;
+		pint start,end;
+		
+//		getchar();
+		rep(i,0,m-1){
+			rep(j,0,n-1){
+				char ch;
+				cin>>ch;
+//				scanf("%c",&ch);
+				maze[i][j]=ch;
+				if(ch>='A'&&ch<='E') {
+					door[ch-'A']++;
+					doorposi[ch-'A']=make_pair(i,j);
+//					doornum++;       //单纯看door数量是不行的，还要看是哪几个门！！！ 
+				}
+				if(ch>='a'&&ch<='e') key[ch-'a']++;    //a写成A错了！！ 
+				if(ch=='S') start=make_pair(i,j);
+				if(ch=='G') end=make_pair(i,j);
+			}
+//			getchar();
+		}
+
+//		int t=doornum;
+		while(flag==0){
+			mst(visited);
+//			mst(collectKey);   不能在这清空collectkey，
+			dfs(start);
+		
+			if(flag==1) break;
+			
+			int stop=true;
+			for(int i=0;i<DoorN;i++){   //是否有新的key收集    
+				if(collectKey[i]!=exCollectKey[i])
+					stop=false;
+			}
+			if(stop==true)
+				break;
+			memcpy(exCollectKey,collectKey,sizeof(int)*DoorN);   //更新上次搜集的钥匙数 
+			
+			for(int i=0;i<DoorN;i++){
+				if(collectKey[i]==key[i]&&key[i]>0){   //钥匙满足数量即可开门，可能没有某门，则对应key为0 
+					door[i]=0;
+//					collectKey[i]=0;  对于一张图来说，collect表示到目前搜集到的所有钥匙数，不要随便清零！！！ 
+					key[i]=0;
+//					int yy=doorposi[i].first,xx=doorposi[i].second;
+					rep(xx,0,n-1)
+					rep(yy,0,m-1){   //open the door
+						if(maze[yy][xx]==char('A'+i))
+							maze[yy][xx]='.';
+					}
+//					t--;
+				}
+			}
+			
+//			rep(i,0,DoorN) exCollectKey[i]=collectKey[i];
+			
+		}
+		if(flag==0) printf("NO\n");
+		else if(flag==1) printf("YES\n"); 
+		
+	
+	}
+	
+} 
