@@ -4,8 +4,8 @@
 
 using namespace std;
 
-//dfs+¼ÇÒä»¯ËÑË÷ 
-//dp[i][j]¼ÇÂ¼´Ó£¨i£¬j£©¿ªÊ¼µÄ×î³¤¾àÀë,¶ÔÓÚ 
+//dfs+è®°å¿†åŒ–æœç´¢ 
+//dp[i][j]è®°å½•ä»ï¼ˆiï¼Œjï¼‰å¼€å§‹çš„æœ€é•¿è·ç¦»,å¯¹äºéå†è¿‡ç¨‹ä¸­dp[i][j]>0è¯´æ˜è¯¥å€¼å°±æ˜¯ä»(i,j)å‡ºå‘çš„æœ€é•¿è·¯å¾„ 
 
 #define rep(i,s,t) for(int i=s;i<=t;i++)
 #define maxfun(x,y) x>y?x:y
@@ -16,7 +16,7 @@ int r,c;
 int di[]={-1,1,0,0};
 int dj[]={0,0,-1,1};
 
-void dfs(int i,int j){    //¶ÔÓÚdfsÓÃ¼ôÖ¦£¬¶ø²»ÊÇÓÃvisitedÊı×éÃ¿´Î¶¼ÒªÍêÈ«±éÀúÒ»±é 
+void dfs(int i,int j){    //å¯¹äºdfsç”¨å‰ªæï¼Œè€Œä¸æ˜¯ç”¨visitedæ•°ç»„æ¯æ¬¡éƒ½è¦å®Œå…¨éå†ä¸€é 
 	if(dp[i][j]>0) return ;   
 	rep(dd,0,3){
 		int ni=i+di[dd],nj=j+dj[dd];
@@ -44,7 +44,7 @@ int main(){
 	
 	rep(i,0,r)
 	rep(j,0,c){
-//		memset(dp,0,sizeof(dp));   »átle 
+//		memset(dp,0,sizeof(dp));   ä¼štle 
 		dfs(i,j);   
 		maxtot=maxfun(maxtot,dp[i][j]);
 		
