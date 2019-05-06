@@ -1,0 +1,56 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+
+using namespace std;
+
+//#define debug
+
+//并查集模板模板题，对于并查集，a[j]=j判断分成几个部分 
+//大数据量输入，使用scanf是防止超时，此题用cin也行 
+
+
+int bin[50005];
+int n,m;
+
+
+int find(int tar){  //未加路径压缩 
+	int res=tar;
+	while(bin[res]!=res){
+		res=bin[res];
+	}
+	return res;    
+}
+
+void merge(int a,int b){
+	int fa=find(a),fb=find(b);
+	if(fa!=fb){
+		bin[fa]=fb;     //记住！！！!!!!!!并查集的并是根的并 !!!!!!!!!!!!!!!
+	}
+}
+
+int main(){
+	#ifdef debug
+	freopen("1526.txt","r",stdin);
+	#endif
+	
+	
+	int num=0;
+	while(~scanf("%d%d",&n,&m)&&(n+m)){
+		int ans=0;
+		for(int i=1;i<=n;i++)
+			bin[i]=i;
+		for(int i=1;i<=m;i++){
+			int na,nb;
+			scanf("%d%d",&na,&nb);
+			merge(na,nb);
+		}
+		for(int i=1;i<=n;i++){
+			if(bin[i]==i)
+				ans++;
+		}
+
+		printf("Case %d: %d\n",++num,ans);
+	}
+	return 0;
+}
