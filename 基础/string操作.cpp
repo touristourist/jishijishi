@@ -4,6 +4,8 @@ using namespace std;
 
 #define out(name,val)  cout<<name<<": "<<val<<endl;
 
+//对于string的一些操作可以推广到其他STL的数据结构的操作，基本大同小异
+
 int main() {
     //========================赋值========================
     string s1="abcdefghijklmnopqrstuvwxyz";
