@@ -9,6 +9,7 @@ using namespace std;
 #define outky(name,val) cout<<name<<" :"<<val<<" ";
 #define out(a) cout<<a<<" "
 
+//找的是最长路径长度，想到用dfs的回溯求出这个过程中的最长路径 
 
 set<char> exletter;
 int visit[50][50];
