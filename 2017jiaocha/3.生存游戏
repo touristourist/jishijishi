@@ -1,0 +1,60 @@
+#include<iostream>
+#include<cstdio>
+
+using namespace std;
+
+#define debug
+
+int a[200][200];
+int b[200][200];
+int n,m;
+
+int di[]={-1,1,0,0,-1,-1,1,1};
+int dj[]={0,0,-1,1,1,-1,-1,1};
+
+int numcount(int ii,int jj){
+	int cnt=0;
+	for(int i=0;i<8;i++){
+		int ni=ii+di[i],nj=jj+dj[i];
+		if(ni>=0&&ni<n&&nj>=0&&nj<m){
+			cnt=a[ni][nj]+cnt;
+		}
+	}
+	return cnt;
+}
+
+
+int main(){
+	#ifdef debug
+	freopen("3.txt","r",stdin);
+	#endif
+	
+	cin>>n>>m;
+	for(int i=0;i<n;i++)
+	for(int j=0;j<m;j++){
+		cin>>a[i][j];
+	}
+	
+	for(int i=0;i<n;i++)
+	for(int j=0;j<m;j++){
+		int cnt=numcount(i,j);
+		if(a[i][j]==0){
+			if(cnt==3) b[i][j]=1;
+			else b[i][j]=0;
+		}
+		else if(a[i][j]==1){
+			if(cnt<2||cnt>3)  b[i][j]=0;
+			else b[i][j]=1;
+		}
+	}
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			cout<<b[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	
+		
+	
+	
+}
