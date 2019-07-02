@@ -1,0 +1,55 @@
+#include<iostream>
+#include<cstdio>
+#include<unordered_map>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+unordered_map<string,int>  strint;
+
+char reff[]={'2','2','2','3','3','3','4','4','4','5','5','5','6','6','6','7','Q','7','7','8','8','8','9','9','9','Z'};
+int n;
+
+string proc(string s){
+	string res="";
+	int len=s.length();
+	for(int i=0;i<len;i++){
+		if(s[i]=='-');
+		else if(s[i]>='A'&&s[i]<='Z')
+			res=res+reff[s[i]-'A'];
+		else res=res+s[i];
+	}
+	res.insert(3,"-");
+	return res;
+}
+
+int main(){
+	cin>>n;
+	string st;
+	for(int i=0;i<n;i++){
+		cin>>st;
+		string tem=proc(st);
+		if(strint.find(tem)==strint.end())
+			strint.insert(make_pair(tem,1));
+		else
+			strint[tem]=strint[tem]+1;
+	}
+	
+	vector<string> vs;
+	for(auto it=strint.begin();it!=strint.end();it++){
+		if(it->second>1)
+			vs.push_back(it->first);
+	}
+	//对于string的sort排序，就是按照字典序来排的！！！ 
+	sort(vs.begin(),vs.end());
+	int leng=vs.size();
+	for(int i=0;i<leng;i++){
+		cout<<vs[i]<<" "<<strint[vs[i]]<<endl;
+	}
+	if(leng==0)
+	cout<<"No duplicates.";
+}
+
+//复习对string和map，set等STL的所有操作（插入，删除，查找） 
+//还有对于string的排序是按照字典序排 
